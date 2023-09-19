@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <style>
+        .container{
+            border: 1px solid lightgray;
+            height: fit-content;
+            width: 500px;
+            border-radius: 7px;
+            position: absolute;
+            left: 30%;
+            top: 15%;
+            box-shadow: 6px 4px 6px rgba(0,0,0,0.3);
+        }
+        h1{
+            text-align: center;
+            font-family: cursive;
+        }
+        input {
+            position: relative;
+            left: 9%;
+            width: 400px;
+            height: 40px;
+        }
+        .submit{
+            position: relative;
+            left: 40%;
+            width: 100px;
+            height: 40px;
+            color: white;
+            background-color: cyan;
+            border: none;
+            border-radius: 10px 0 10px 0;
+        }
+        .submit:hover{
+            background-color: rgb(123, 188, 210);
+            transition: 500ms;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form id="signup">
+            <h1>Sign Up</h1>
+            <input type="text" id="username" placeholder="Username"><br><br>
+            <input type="email" id="email" placeholder="Email"><br><br>
+            <input type="password" id="password" placeholder="Password">
+            <button type="button" onclick="showPass('password')">Show</button><br>
+            <input type="password" id="confirm-password" placeholder="Confirm Password">
+            <button type="button" onclick="showPass('confirm-password')">Show</button><br><br><br><br>
+            <button class="submit" type="button" onclick="register()">Submit</button>
+            <p>Already have an account? <a href="login.html">Login</a></p>
+        </form>
+    </div>
+
+    <script>
+        let users = []; // Array to store user details
+
+        function showPass(inputId) {
+            let input = document.getElementById(inputId);
+            input.type == "password" ? input.type = "text" : input.type = "password";
+        }
+
+        function register() {
+            let username = document.getElementById("username").value;
+            let email = document.getElementById("email").value;
+            let password = document.getElementById("password").value;
+            let confirmPassword = document.getElementById("confirm-password").value;
+
+            if (username === "" || email === "" || password === "") {
+                alert("Input fields cannot be empty");
+            } else if (password !== confirmPassword) {
+                alert("Passwords do not match");
+            } else {
+                // Create a user object and add it to the array
+                let user = { username, email, password };
+                users.push(user);
+
+                alert("Registration Successful!");
+                // Clear the form fields
+                document.getElementById("username").value = "";
+                document.getElementById("email").value = "";
+                document.getElementById("password").value = "";
+                document.getElementById("confirm-password").value = "";
+            }
+        }
+    </script>
+</body>
+</html>

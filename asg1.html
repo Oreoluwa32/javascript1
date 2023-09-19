@@ -1,0 +1,40 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    <body>
+        <input type="text" id="inputString">
+        <button onclick="checkString()">Check</button>
+        <p id="Answers:"></p>
+
+    <script>
+        function checkString() {
+            let input = document.getElementById("inputString").value;
+            let answers = document.getElementById("Answers:");
+            
+            // Length of the string
+            let length = input.length;
+            // String in upper case
+            let upperCase = input.toUpperCase();
+            // String in lower case
+            let lowerCase = input.toLowerCase();
+            // Check for "javascript"
+            let containsJS = input.includes("javascript");
+            // Index of "A"
+            let index = input.toLowerCase().indexOf("a");
+
+            answers.innerHTML = `
+            The length of the string is ${length}.<br>
+            The string in upper case is "${upperCase}".<br>
+            The string in lower case is "${lowerCase}".<br>
+            The sentence ${containsJS ? "contains" : "doesn't contain"} "javascript".<br>
+            ${index !== -1 ? `The index of "A" or "a" is ${index}.` : "Character A or a isn't found"} 
+            `;
+        }
+    </script>
+    </body>
+    </html>

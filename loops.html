@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        button{
+            width: 70px;
+            height: 30px;
+            background-color: aqua;
+            border: none;
+            margin-left: 50px;
+        }
+    </style>
+</head>
+<body>
+    <input type="number" id="num1">
+    <input type="number" id="num2">
+    <button onclick="multiplyNumbers()">Calculate</button>
+    <div id="answer"></div>
+</body>
+</html>
+<script>
+    function multiplyNumbers() {
+    const num1 = parseInt(document.getElementById("num1").value);
+    const num2 = parseInt(document.getElementById("num2").value);
+    const answer = document.getElementById("answer");
+    answer.innerHTML = "";
+
+    for (let i = 0; i <= num2; i++) {
+        const multiply = num1 * i;
+        answer.innerHTML += `${num1} * ${i} = ${multiply}<br>`;
+    }
+}
+    // Loops in javascript
+    // for loop syntax
+    // const arr1 = [1,2,3,4,5,6,7,8,9];
+
+    // for(i = 0; i < arr1.length; i++){
+    //     const element = arr1[i];
+    //     console.log(element * 3)
+    // }
+
+    // let obj1 = {
+    //     name: "Peter",
+    //     age: 50,
+    //     color: "green",
+    //     isTall: true,
+    //     food: "Rice",
+    // }
+
+    // for(i in obj1){
+    //     console.log(obj1[i])
+    // }
+
+    // // while loop syntax
+    // let index = 0
+    // while(index <= 2){ //Runs the loop twice but adds the declared index first before the loop runs
+    //     console.log(index * 3)
+    //     index++
+    // }
+
+    // // do while loop syntax
+    // let poll = 0 
+    // do{
+    //     console.log(poll * 3);
+    //     poll++
+    // }
+    // while(poll <= 15) //Runs the loop 15 times but adds the declared index first before the loop runs
+</script>

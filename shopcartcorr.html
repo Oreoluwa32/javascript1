@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .darkmode{
+            background-color: black;
+            color: white;
+        }
+        .card{
+            width: 200px;
+            height: 200px;
+            border: 1px solid lightgray;
+            box-shadow: 6px 4px 6px rgba(0,0,0,0.2);
+            border-radius: 5px;
+            margin-top: 10px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Shopping List</h1>
+        <input type="text" placeholder="Item" id="item"><br>
+        <input type="number" placeholder="Quantity" id="qty"><br>
+        <input type="number" placeholder="Price" id="price"><br>
+        <button onclick="addToList()">Add To List</button>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>S/N</th>
+                    <th>Item</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody id="disp"></tbody>
+        </table>
+    </div>
+    <!-- Check for numbers from 0 to 10 using the previous and next buttons -->
+    <button onclick="plus()">+</button>
+    <span id="showNum"></span>
+    <button onclick="minus()">-</button><br><br>
+
+    <!-- Scan through an array of words using the previous and next buttons -->
+    <button onclick="prev()">Previous</button>
+    <span id="word"></span>
+    <button onclick="next()">Next</button><br><br>
+
+    <!-- Display edit card -->
+    <div class="card" id="card"></div>
+    <button onclick="show()">Card</button><br><br>
+
+    <!-- Toggle between the background light and dark mode using a button -->
+    <button id="toggleButton">Change background color</button><br><br>
+
+    <!-- Image Slider -->
+    <h1>Image Slider</h1>
+    <div id="images"></div>
+    <button onclick="prevButton()">Previous</button>
+    <button onclick="nextButton()">Next</button>
+
+    <!-- Number Validation -->
+    <h2>Suggest Random Number</h2>
+    <input type="number" placeholder="Input Number" id="number">
+    <button type="button" onclick="submit()">Submit</button>
+
+    <!-- Clear Interval -->
+    <button onclick="interClear()">Clear the Log</button>
+</body>
+</html>
+<script>
+    let card = document.getElementById("card")
+    card.style.display = "none"
+    function show(){
+        // Using the if else statement
+        if(card.style.display == "none"){
+            card.style.display == "block"
+        }
+        else{
+            card.style.display == "none"
+        }
+        // Using the ternary operator
+        // card.style.display == "none" ? card.style.display = "block" : card.style.display = "none"
+    }
+
+    // Array of words changed using the next and previous buttons
+    let arr1 = ["Me", "You", "Him", "She", "They", "Them"]
+    let index = 0;
+    word.innerHTML = "Me"
+    let element = document.getElementById("word")
+    function next(){
+        word.innerHTML = "Me"
+        if (index === arr1.length - 1) {
+            index = 0
+        }
+        else{
+            index++
+            element.innerText = arr1[index]
+        }
+    }
+
+    function prev(){
+        if (index === 0) {
+            alert("No previous words")
+        }
+        else{
+            index--
+        }
+        element.innerText = arr1[index]
+    }
+
+    let num = 0;
+    showNum.innerHTML = num
+    function plus(){
+        if(num > 9){
+            alert("Maximum number reached")
+            return
+        }
+        else{
+            num++
+            showNum.innerHTML = num
+        }
+    }
+    function minus(){
+        if(num < 1){
+            alert("Minimum number reached")
+            return
+        }
+        else{     
+        num--
+        showNum.innerHTML = num
+        }
+    }
+    
+
+
+    let item = document.getElementById("item")
+    let qty = document.getElementById("qty")
+    let price = document.getElementById("price")
+    let disp = document.getElementById("disp")
+    let list = []
+    function addToList(){
+        let data = {
+            item: item.value,
+            qty: qty.value,
+            price: price.value
+        }
+        list.push(data)
+        disp.innerHTML = ""
+        list.forEach((el,i)=>{
+        disp.innerHTML += `
+        <tr>
+            <td>${i}</td>
+            <td>${el.item}</td>
+            <td>${el.qty}</td>
+            <td>${el.price}</td>
+            <td>
+                <button>Edit</button>
+                <button>Delete</button>
+            </td>
+        </tr>`
+        })
+    }
+
+    // An argument is a value that is passed to a function when it is being invoked
+    // A parameter is a variable that is passed to a function when it is being declared
+    function del(index){
+        element.splice(i, 1)
+        console.log(element);
+        disp.innerHTML = ""
+        list.forEach((el,i)=>{
+        disp.innerHTML += `
+        <tr>
+            <td>${i}</td>
+            <td>${el.item}</td>
+            <td>${el.qty}</td>
+            <td>${el.price}</td>
+            <td>
+                <button>Edit</button>
+                <button onclick="del(${i})">Delete</button>
+            </td>
+        </tr>`
+        })
+    }
+
+    function editItem(index){
+        // Get the item to edit from the array 
+        const itemToEdit = itemArray[index]
+
+        // Prompt the user for new values
+        const newName = prompt("Edit Item Name:", itemToEdit.name)
+        const newPrice = prompt("Edit Item Price:", itemToEdit.price)
+        const newQuantity = prompt("Edit Item Quantity:", itemToEdit.quantity)
+
+        if(newName !== null && !isNaN(newPrice) && !isNaN(newQuantity)){
+            // Update the item's properties with the new values 
+            itemToEdit.name = newName
+            itemToEdit.price = newPrice
+            itemToEdit.quantity = newQuantity
+            itemToEdit.total = newPrice * newQuantity
+
+            let sum = itemArray.reduce((total, item)=>{
+                return total + item.total
+            },0)
+            document.getElementById("total").innerHTML = `Total: ${sum}`
+
+            // Update the list
+            displayList()
+        }
+    }
+
+    // Change background color
+    let toggleButton = document.getElementById("toggleButton")
+    let body = document.body
+
+    toggleButton.addEventListener('click', () => {
+        body.classList.toggle('darkmode')
+    })
+
+    // Array of images changed using the previous and next buttons
+    let img = ["friends.webp", "html.webp", "random.webp", "share.png", "use.webp", "warzone.webp"]
+    let imageIndex = 0;
+    images.innerHTML = `<img src="friends.webp" width="400px height="400px">`
+    let imageElement = document.getElementById("images")
+    function nextButton(){
+        images.innerHTML = `<img src="friends.webp" width="400px height="400px">`
+        if (imageIndex === img.length - 1) {
+            imageIndex = 0
+        }
+        else{
+            imageIndex++
+        }
+        displayCurrentImage()
+    }
+
+    function prevButton(){
+        if (imageIndex === 0) {
+            imageIndex = img.length -1
+        }
+        else{
+            imageIndex--
+        }
+        displayCurrentImage()
+    }
+
+    function displayCurrentImage(){
+        imageElement.innerHTML = `<img src="${img[imageIndex]}" width="400px height="400px">`
+    }
+
+    // Math.random is used to generate random numbers
+    // console.log(Math.random());
+
+    // This generates random numbers from 0.0000 to 99.0000
+    // console.log(Math.random() * 100);
+
+    // Math.floor is used to convert the random numbers to a whole number from 0 to 99
+    // console.log(Math.floor(Math.random() * 100));
+
+    let number = document.getElementById("number")
+    let randomNum = console.log(Math.floor(Math.random() * 100));
+
+    function submit(){
+        if(number.value == randomNum){
+            alert("You're correct")
+        }
+        else{
+            alert ("You're wrong")
+        }
+    }
+
+    setTimeout(() => {
+        alert("You delayed me!")
+    }, 3000)
+
+    let theLog = setInterval(() =>{
+        console.log("Something")
+    }, 1000)
+
+    function interClear(){
+        clearInterval(theLog)
+    }
+</script>

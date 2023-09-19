@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <main>
+        <div id="dispQuestion"></div>
+        <button onclick="prev()">Previous</button>
+        <button onclick="next()">Next</button>
+    </main>
+</body>
+</html>
+
+<script>
+    let quesIndex = 0;
+    let cbt = [
+        {
+            question: "What is your favourite food?",
+            options: ["Amala", "Rice", "Beans", "Eba"],
+            answer: "Rice"
+        },
+        {
+            question: "What is your favourite color?",
+            options: ["Red", "White", "Blue", "Green"]
+        },
+        {
+            question: "What is your favourite car?",
+            options: ["Toyota", "Nissan", "Lexus", "BMW"]
+        },
+        {
+            question: "What is your favourite class?",
+            options: ["HTML", "CSS", "JS", "PHP"]
+        },
+    ]
+
+    function showQuestion()
+    {
+        dispQuestion.innerHTML = `<h1>${quesIndex+1}. ${cbt[quesIndex].question}</h1>`
+        cbt[quesIndex].options.forEach((el)=>{
+            dispQuestion.innerHTML += `
+            <input onchange ="pickAns(event)" value="${el}" name="inp" type="radio">`
+        })
+    }
+</script>

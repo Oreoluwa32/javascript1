@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2 id="countdown"></h2>
+    <input type="number" id="countdownInput" placeholder="Enter a number">
+    <button onclick="startCountdown()">Start Countdown</button>
+</body>
+</html>
+
+<script>
+    function startCountdown(){
+        let countdown = document.getElementById("countdown")
+        let countdownInput = document.getElementById("countdownInput")
+        let count = parseInt(countdownInput.value)
+
+        if(isNaN(count)){
+            alert("Enter a valid number")
+            return
+        }
+
+        let timer = setInterval(function(){
+            countdown.innerHTML = count;
+        count--;
+
+        if(count < 0){
+            clearInterval(timer)
+            countdown.innerHTML = "Countdown Completed";
+            alert("Countdown Completed")
+        }
+        }, 1000)
+    }
+</script>

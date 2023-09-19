@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        .container{
+            border: 1px solid lightgray;
+            height: fit-content;
+            width: 500px;
+            border-radius: 7px;
+            position: absolute;
+            left: 30%;
+            top: 15%;
+            box-shadow: 6px 4px 6px rgba(0,0,0,0.3);
+        }
+        h1{
+            text-align: center;
+            font-family: cursive;
+        }
+        input {
+            position: relative;
+            left: 9%;
+            width: 400px;
+            height: 40px;
+        }
+        .submit{
+            position: relative;
+            left: 40%;
+            width: 100px;
+            height: 40px;
+            color: white;
+            background-color: cyan;
+            border: none;
+            border-radius: 10px 0 10px 0;
+        }
+        .submit:hover{
+            background-color: rgb(123, 188, 210);
+            transition: 500ms;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form id="login">
+            <h1>Login</h1>
+            <input type="text" id="login-username" placeholder="Username or Email"><br><br>
+            <input type="password" id="login-password" placeholder="Password">
+            <button type="button" onclick="showPass('login-password')">Show</button><br><br>
+            <button class="submit" type="button" onclick="login()">Login</button>
+            <p>Don't have an account? <a href="asg2.html">Sign Up</a></p>
+        </form>
+    </div>
+</body>
+</html>
+
+<script>
+        let users = []; // Array to store user details
+
+        function showPass(inputId) {
+            let input = document.getElementById(inputId);
+            input.type == "password" ? input.type = "text" : input.type = "password";
+        }
+
+        function login() {
+            let loginInfo = document.getElementById("login-username").value;
+            let loginPassword = document.getElementById("login-password").value;
+            let userFound = false;
+
+            for (let user of users) {
+                if (user.username === loginInfo || user.email === loginInfo) {
+                    if (user.password === loginPassword) {
+                        alert("Login Successful!");
+                        userFound = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!userFound) {
+                alert("User not Found");
+            }
+        }
+    </script>

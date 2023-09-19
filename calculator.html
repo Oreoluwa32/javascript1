@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+    body{
+    margin:0; padding:5px;
+    background-color:#efefef;
+    user-select:none;
+    }
+
+    h1{
+        text-align: center;
+    }
+
+    #container{   
+    display:block;
+    position:relative  ;
+    background-color: white;
+    width:285px; 
+    height:auto;
+    top:0;  left:0;
+    margin:auto;
+    margin-top:15px;
+    border-radius:10px;
+    box-shadow:0 1px 3px rgba(0,0,0,0.12), 0 3px 5px rgba(0,0,0,0.3);
+    padding:5px;
+    }
+
+    #input{
+    display:block ;
+    position:relative  ;
+    background-color: black;
+    width:80%; 
+    height:80px;
+    margin:5%;
+    border-radius:10px;
+    padding:5%;
+    text-align:right;
+    }
+
+    #num1{
+    color:gray; 
+    font-size:17px;
+    margin-top:20px;
+    }
+
+    #num2{
+    color:white; 
+    font-size:28px;
+    overflow:auto;
+    }
+
+    #keypad{
+    display:block ;
+    position:relative  ;
+    width:90%; height:65%;
+    margin:5%;
+    border-radius:10px;
+    }
+
+    .row{
+    display:block;
+    position:relative;
+    }
+
+    .button{
+    display:inline-block ;
+    position:relative ;
+    height:50px; width:50px;
+    border-radius:50%;
+    margin:5px;
+    border:none; outline:none;
+    font-size:20px;
+    }
+
+    #equal{
+    display:inline-block  ;
+    position:absolute;
+    height:112px; width:50px;
+    border-radius:30px;
+    margin:7px auto 5px 12px;
+    border:none; outline:none;
+    background-color:teal;
+    color:white;
+    }
+
+    #operators,#del{
+    background-color:#03346C;
+    color:white;
+    font-size:18px;
+    padding-top:3px;
+    }
+
+    #numbers{
+    background-color:yellow;
+    color:black;
+    }
+
+    #decimal, #clear{
+    background-color:white;
+    color:black;
+    border:2px solid yellow;
+    }
+    </style>
+</head>
+<body>
+    <h1>Simple Calculator</h1>
+    <!-- Container  --> 
+    <div id="container">
+        
+        <div id="input" >
+        <div id="num1" ></div>     
+        <div id="num2" ></div>
+        </div>
+        
+         <!-- Keypad  -->
+         <div id="keypad" >
+          
+          <div class="row">
+              
+           <button type="text" id="del" class="button" onclick="del()"><--</button>
+          <button type="text" id="operators" class="button" onclick="view('*')">x</button>
+           <button type="text" id="operators" class="button" onclick="view('/')">/</button>
+            <button type="text" id="operators" class="button" onclick="view('+')">+</button>   
+          </div>
+          
+          <div class="row">
+              
+           <button type="number" id="numbers" class="button" onclick="view(7)">7</button>
+          <button type="number" id="numbers" class="button" onclick="view(8)">8</button>
+           <button type="number" id="numbers" class="button" onclick="view(9)">9</button>
+            <button type="text" id="operators" class="button" onclick="view('-')">-</button>   
+          </div>
+          
+          <div class="row">
+              
+           <button type="number" id="numbers" class="button" onclick="view(4)">4</button>
+          <button type="number" id="numbers" class="button" onclick="view(5)">5</button>
+           <button type="number" id="numbers" class="button" onclick="view(6)">6</button>
+            <button type="text" id="operators" class="button" onclick="view('%')">%</button>   
+          </div>
+          
+          <div class="row">
+              
+           <button type="number" id="numbers" class="button" onclick="view(1)">1</button>
+          <button type="number" id="numbers" class="button" onclick="view(2)">2</button>
+           <button type="number" id="numbers" class="button" onclick="view(3)">3</button>
+            <button type="text" id="equal" onclick="calc()">=</button>
+          </div>
+          
+          
+          <div class="row">
+           <button type="text" id="decimal" class="button" onclick="view('.')">.</button>
+          <button type="number" id="numbers" class="button" onclick="view(0)">0</button>
+           <button type="text" id="clear" class="button" onclick="clr()">C</button>
+            
+          </div>
+          
+         
+             
+         </div>
+    </div>
+</body>
+</html>
+
+<script>
+    let value = " ";
+
+// To assign values
+function view(input) {
+    input = String(input);
+    value += input;
+    document.getElementById("num2").innerHTML = value;
+}
+
+// To clear everything on output display
+function clr() {
+    document.getElementById("num2").innerHTML = "";
+    document.getElementById("num1").innerHTML = "";
+    value = " ";
+}
+
+// To cancel last digit
+function del() {
+    value = String(value);
+
+    if (value.length - 1 == 0 || value == "INVALID" || value == "undefined" || value == "Infinity") {
+        clr();
+    } 
+    else {
+        value = value.substring(0, value.length - 1);
+    }
+    document.getElementById("num2").innerHTML = value;
+}
+
+// To calculate
+function calc() {
+    let len = value.length - 1;
+    document.getElementById("num1").innerHTML = value;
+
+    // Splitting the value into parts
+    let parts = value.split(/([+\-*/%])/);
+
+    // Using a switch statement to perform operations
+    let result = parseFloat(parts[0]);
+    for (let i = 1; i < parts.length; i += 2) {
+        let operator = parts[i];
+        let operand = parseFloat(parts[i + 1]);
+
+        switch (operator) {
+            case "+":
+                result += operand;
+                break;
+            case "-":
+                result -= operand;
+                break;
+            case "*":
+                result *= operand;
+                break;
+            case "/":
+                if (operand !== 0) {
+                    result /= operand;
+                } else {
+                    value = "INVALID";
+                    document.getElementById("num2").innerHTML = value;
+                    return;
+                }
+                break;
+            case "%":
+                if (operand !== 0) {
+                    result %= operand;
+                } else {
+                    value = "INVALID";
+                    document.getElementById("num2").innerHTML = value;
+                    return;
+                }
+                break;
+        }
+    }
+
+    // Displaying the result
+    value = String(result);
+    document.getElementById("num2").innerHTML = value;
+}
+</script>

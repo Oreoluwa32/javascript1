@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up and Login</title>
+    <style>
+        .container{
+            border: 1px solid lightgray;
+            height: fit-content;
+            width: 500px;
+            border-radius: 7px;
+            position: absolute;
+            left: 30%;
+            top: 15%;
+            box-shadow: 6px 4px 6px rgba(0,0,0,0.3);
+        }
+        h1{
+            text-align: center;
+            font-family: cursive;
+        }
+        input {
+            position: relative;
+            left: 9%;
+            width: 400px;
+            height: 40px;
+        }
+        .submit{
+            position: relative;
+            left: 40%;
+            width: 100px;
+            height: 40px;
+            color: white;
+            background-color: cyan;
+            border: none;
+            border-radius: 10px 0 10px 0;
+        }
+        .submit:hover{
+            background-color: rgb(123, 188, 210);
+            transition: 500ms;
+        }
+        .loader {
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid cyan;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 2s linear infinite;
+            display: none;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sign Up Section -->
+        <div id="signup-section">
+            <h1>Sign Up</h1>
+            <input type="text" id="username" placeholder="Username"><br><br>
+            <input type="email" id="email" placeholder="Email"><br><br>
+            <input type="password" id="password" placeholder="Password">
+            <button type="button" onclick="showPass('password')">Show</button><br>
+            <input type="password" id="confirm-password" placeholder="Confirm Password">
+            <button type="button" onclick="showPass('confirm-password')">Show</button><br><br><br><br>
+            <button class="submit" type="button" onclick="showLoginSection()">Submit</button>
+        </div>
+        
+        <button class="show-login-button" onclick="showLoginSection()">Show Login</button>
+    </div>
+
+    <!-- Login Section -->
+    <div class="container">
+        <div id="login-section" style="display: none;">
+            <h1>Login</h1>
+            <input type="text" id="login-username" placeholder="Username or Email"><br><br>
+            <input type="password" id="login-password" placeholder="Password">
+            <button type="button" onclick="showPass('login-password')">Show</button><br><br>
+            <button class="submit" type="button" onclick="showDashboard()">Login</button>
+            <div class="loader" id="login-loader"></div>
+            <!-- <button class="show-register-button" onclick="showRegisterSection()">Show Register</button> -->
+        </div>    
+    </div>
+
+    <div id="dashboard" style="display: none;">
+        <h1>Welcome, <span id="dashboard-username"></span></h1>
+    </div>
+
+    <script>
+        let users = JSON.parse(localStorage.getItem("users")) || [];
+
+        function showPass(inputId) {
+            let input = document.getElementById(inputId);
+            input.type == "password" ? (input.type = "text") : (input.type = "password");
+        }
+
+        function register() {
+            let username = document.getElementById("username").value;
+            let email = document.getElementById("email").value;
+            let password = document.getElementById("password").value;
+            let confirmPassword = document.getElementById("confirm-password").value;
+
+            if (username === "" || email === "" || password === "") {
+                alert("Input fields cannot be empty");
+            }
+            else if(password.length < 8 || confirmPassword.length < 8){
+                alert("Password must contain at keast 8 charcters")
+            } 
+            else if (password !== confirmPassword) {
+                alert("Passwords do not match");
+            } 
+            else {
+                let user = { username, email, password };
+                users.push(user);
+
+                localStorage.setItem("users", JSON.stringify(users));
+
+                alert("Registration Successful!");
+                clearSignupForm();
+                showLoginSection();
+            }
+        }
+
+        function login() {
+            let loginInfo = document.getElementById("login-username").value;
+            let loginPassword = document.getElementById("login-password").value;
+
+            let authenticatedUser = null;
+
+            for (let user of users) {
+                if (user.username === loginInfo || user.email === loginInfo) {
+                    if (user.password === loginPassword) {
+                        authenticatedUser = user;
+                        break;
+                    }
+                }
+            }
+
+            if (authenticatedUser) {
+                showLoader("login-loader");
+                setTimeout(() => {
+                    hideLoader("login-loader");
+                    showDashboard(authenticatedUser.username);
+                }, 3000);
+            } else {
+                alert("User not Found");
+            }
+        }
+
+        function showLoginSection() {
+            clearLoginForm();
+            document.getElementById("signup-section").style.display = "none";
+            document.getElementById("login-section").style.display = "block";
+            document.querySelector(".show-login-button").style.display = "none";
+        }
+
+        function clearSignupForm() {
+            document.getElementById("username").value = "";
+            document.getElementById("email").value = "";
+            document.getElementById("password").value = "";
+            document.getElementById("confirm-password").value = "";
+        }
+
+        function clearLoginForm() {
+            document.getElementById("login-username").value = "";
+            document.getElementById("login-password").value = "";
+        }
+
+        function showLoader(loaderId) {
+            document.getElementById(loaderId).style.display = "block";
+        }
+
+        function hideLoader(loaderId) {
+            document.getElementById(loaderId).style.display = "none";
+        }
+
+        function showDashboard(username) {
+            let dashboardUsername = document.getElementById("dashboard-username");
+            dashboardUsername.textContent = username;
+            document.getElementById("login-section").style.display = "none";
+            document.getElementById("dashboard").style.display = "block";
+        }
+    </script>
+</body>
+</html>

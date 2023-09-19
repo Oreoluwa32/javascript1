@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+</html>
+
+<script>
+    // Array methods in javascript
+    // Converts the array to string
+    const test = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
+    console.log(test.toString())
+    
+    // Adds the given parameter to the array provided there is a separator like comma
+    console.log(test.join(" "))
+
+    // Removes the last element of the array
+    const test2 = ["Banana", "Apple", "Orange", "Pineapple", "Watermelon", "Carrot"]
+    console.log(test2.pop())
+    console.log(test2)
+
+    // Adds the given element to the end of the array
+    console.log(test2.push("Strawberry"))
+    console.log(test2)
+
+    // Removes the first element of the array
+    test2.shift()
+    console.log(test2)
+
+    // Replaces the first element with the given element(guava)
+    test2.unshift("Guava")
+    console.log(test2)
+
+    // Replaces the element in a particular index with another element(pawpaw)
+    test2[3] = "Pawpaw"
+    console.log(test2)
+
+    // Checks for the length of the array and adds grape to the end of the array
+    test2[test2.length] = "grape"
+    console.log(test2)
+
+    // Concatenates two arrays together using the concat() method
+    const test3 = [1, 2, 3, 4, 5]
+    const test4 = [6, 7, 8, 9, 0]
+    const test5 = test3.concat(test4)
+    console.log(test5)
+
+    // Removes the first two elements from the array
+    test6 = test2.slice(2)
+    console.log(test6)
+
+    // Here, the slice() method takes two arguments. It slices the index 1 element and also slice the remaining elements from the index 3 
+    test7 = test2.slice(1, 3)
+    console.log(test7)
+
+    // This removes a specified number of elements with its index and replaces it with something else. The first arguments in the splice method checks for the index, the second argument specifies how many elements you want to replace and the third argument specifies the what we are replacing it with. If you don't want any replacement, you can leave the third argument blank
+    test8 = test2.splice(3, 1, "Lemon")
+    console.log(test2)
+
+    // Array and objects destructuring in javascript
+    // Array destructuring
+    let test9 = ["Nana", "Semilore", "Obinna", "Dara", "Pelumi"]
+
+    let [Nana, Semilore, Obinna, Dara, Pelumi] = test9
+    console.log(Pelumi)
+
+    const ram = {
+        name: "Ram",
+        age: 23,
+        isFood: true,
+        isPet: false,
+        color: "White"
+    }
+
+    let {name, age, color} = ram
+    console.log(color)
+
+    // Object destructuring
+    // Spread operator(...) It spread outs the content of an array into another array
+    let arr1 = [1, 2, 3, 4, 5]
+    let arr2 = [...arr1, 6, 7, 8, 9, 0]
+    console.log(arr2)
+
+    let obj1 = {name: "don", age:23, color: "White"}
+    let obj2 = {...obj1, isBig: undefined, club: "Arsenal"}
+    console.log(obj2)
+</script>4

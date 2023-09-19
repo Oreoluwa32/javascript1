@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        #container{
+            margin-left: 400px;
+            width: auto;
+            height: auto;
+        }
+        h1{
+            margin-left: 150px;
+        }
+        input{
+            width: 500px;
+            height: 30px;
+        }
+        .input{
+            margin-bottom: 10px;
+        }
+        button{
+            transition: 700ms;
+        }
+        .sub{
+            color: white;
+            background-color: gray;
+            border: none;
+            height: 30px;
+            width: 70px;
+            border-radius: 5px;
+        }
+        .sub:hover{
+            color: black;
+            background-color: white;
+            border: 1px solid black;
+        }
+        .col{
+            text-align: center;
+        }
+        .editItem{
+            color: white;
+            background-color: rgb(41, 41, 212);
+            border: none;
+            height: 30px;
+            width: 70px;
+            border-radius: 5px;
+        }
+        .editItem:hover{
+            color: rgb(41, 41, 212);
+            background-color: white;
+            border: 1px solid rgb(41, 41, 212);
+        }
+        .deleteItem{
+            color: white;
+            background-color: red;
+            border: none;
+            height: 30px;
+            width: 70px;
+            border-radius: 5px;
+        }
+        .deleteItem:hover{
+            color: red;
+            background-color: white;
+            border: 1px solid red;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1 class="class-header text-header">SHOPPING LIST</h1>
+        <div class="input">
+            <input type="text" class="form-control" id="inp1" placeholder="ITEM">
+        </div>
+        <div class="input">
+            <input type="number" class="form-control" id="inp2" placeholder="PRICE">
+        </div>
+        <div class="input">
+            <input type="number" class="form-control" id="inp3" placeholder="QUANTITY">
+        </div>
+
+        <div id="total" class="p-3">
+            <button onclick="submit()" type="submit" class="sub">Submit</button>
+            <p id="tot"></p>
+        </div>
+    </div>
+
+    <div id="shoppingList">
+
+    </div>
+</body>
+</html>
+
+<script>
+    let itemArray = [];
+
+    function submit(){
+        let item = document.getElementById("inp1").value
+        let price = document.getElementById("inp2").value
+        let quantity = document.getElementById("inp3").value
+        let total = price * quantity
+        const obj = {name:item, price:price, quantity:quantity, total:total}
+        itemArray.push(obj)
+        let sum = itemArray.reduce((total,item)=>{
+            return total + item.total
+        },0)
+        document.getElementById("total").innerHTML = `Total: ${sum}`
+        
+        displayList()
+    }
+
+    function displayList(){
+        let items = ""
+        itemArray.forEach((i,index) => {
+            items += `<div class="col p-3 shadow d-flex justify-content-between">
+                <p>Item: ${i.name}</p>
+                <p>Price: ${i.price}</p>
+                <p>Quantity: ${i.quantity}</p>
+                <p>Total: ${i.total}</p>
+                <div class="">
+                    <div>
+                        <button onclick="editItem(${index})" type="submit" class="editItem">Edit</button>
+                    </div>
+                    <br>
+                    <div>
+                        <button onclick="deleteItem(${index})" type="submit" class="deleteItem">Delete</button>
+                    </div>
+                </div>`
+        })
+        document.getElementById("shoppingList").innerHTML = items
+
+        let stringArray = JSON.stringify(itemArray)
+        localStorage.setItem("Items", stringArray)
+    }
+
+    function editItem(index){
+        // Get the item to edit from the array 
+        const itemToEdit = itemArray[index]
+
+        // Prompt the user for new values
+        const newName = prompt("Edit Item Name:", itemToEdit.name)
+        const newPrice = prompt("Edit Item Price:", itemToEdit.price)
+        const newQuantity = prompt("Edit Item Quantity:", itemToEdit.quantity)
+
+        if(newName !== null && !isNaN(newPrice) && !isNaN(newQuantity)){
+            // Update the item's properties with the new values 
+            itemToEdit.name = newName
+            itemToEdit.price = newPrice
+            itemToEdit.quantity = newQuantity
+            itemToEdit.total = newPrice * newQuantity
+
+            let sum = itemArray.reduce((total, item)=>{
+                return total + item.total
+            },0)
+            document.getElementById("total").innerHTML = `Total: ${sum}`
+
+            // Update the list
+            displayList()
+        }
+    }
+
+    function deleteItem(index){
+        itemArray.splice(index, 1)
+        displayList()
+    }
+</script>
